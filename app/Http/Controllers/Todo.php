@@ -42,8 +42,7 @@ class Todo extends Controller
     ]);
 
     // redirect
-    // return redirect('/')->with('status', 'Task added!');
-    return response()->json(['success'=>'Laravel ajax example is being processed.']);
+    return redirect('/')->with('status', 'Task added!');
     }
 
     /**
