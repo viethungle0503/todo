@@ -37,12 +37,14 @@ class Todo extends Controller
     // store the data
     DB::table('todos')->insert([
         'task' => $request->task,
+        'content' => $request->content,
+        'status' => 0,
         'created_at' => now(),
         'updated_at' => now()
     ]);
 
     // redirect
-    return redirect('/')->with('status', 'Task added!');
+    return redirect('/')->with('result', 'Task added!');
     }
 
     /**
@@ -58,7 +60,8 @@ class Todo extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $todo = DB::table('todos')->where('id', $id)->first();
+        return view('update', ['todo' => $todo]);
     }
 
     /**
@@ -73,23 +76,23 @@ class Todo extends Controller
 
     // update the data
     DB::table('todos')->where('id', $id)->update([
-        'task' => $request->task
+        'task' => $request->task,
+        'content' => $request->content,
+        'updated_at' => now()
     ]);
 
     // redirect
-    return redirect('/')->with('status', 'Task updated!');
+    return redirect('/')->with('result', 'Task updated!');
     }
 
     public function update_status(Request $request, string $id)
     {
-    // update the data
-    // $request->validate([
-    //     'status' => 'required'
-    // ]);
-    // DB::table('todos')->where('id', $id)->update([
-    //     'status' => $request->status
-    // ]);
-    return redirect('/')->with('status', 'Status updated!');
+    $result = DB::table('todos')->where('id', $id)->first('status');
+    DB::table('todos')->where('id', $id)->update([
+        'status' => $result->status == 0 ? 1 : 0,
+        'updated_at' => now()
+    ]);
+    return redirect('/')->with('result', 'Status updated!');
     }
 
     /**
@@ -101,6 +104,6 @@ class Todo extends Controller
     DB::table('todos')->where('id', $id)->delete();
 
     // redirect
-    return redirect('/')->with('status', 'Task removed!');
+    return redirect('/')->with('result', 'Task removed!');
     }
 }

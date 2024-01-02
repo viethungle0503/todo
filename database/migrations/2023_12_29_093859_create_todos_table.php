@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('todos', function (Blueprint $table) {
-            $table->id();
-            $table->string('task')->nullable();
+            $table->increments('id');
+            $table->string('task');
+            $table->string('content')->nullable();
             $table->boolean('status')->default(false);
-            $table->timestamps('created_at')->default(now());
-            $table->timestamps('updated_at')->default(now());
+            $table->timestamp('created_at')->nullable()->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable()->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
