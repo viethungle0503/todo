@@ -23,7 +23,7 @@
                         <form action="{{ url('todos/' . $todo->id) }}" method="POST" style="display: inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <button class="btn btn-danger" onclick="deleteItem()">Delete</button>
                         </form>
                     </div>
                 </div>

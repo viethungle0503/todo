@@ -24,7 +24,7 @@
             <form action="{{ url('todos/' . $todo->id) }}" method="POST" style="display: inline-block;">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-danger" type="submit">Delete</button>
+                <button class="btn btn-danger" onclick="deleteItem()">Delete</button>
             </form>
             <form id="statusForm" action="{{ url('todos_status/' . $todo->id) }}" method="POST"
                 style="display: inline-block;">
@@ -33,7 +33,7 @@
                 <input class="form-check-input mt-2" style="display: block;" type="checkbox"
                     value="{{ $todo->status == 1 ? 1 : 0 }}" aria-label="Nothing" name="status"
                     onchange="document.getElementById('statusForm').submit()">
-                {{ $todo->status == 1 ? 'Done' : 'Pending'  }}
+                {{ $todo->status == 1 ? 'Done' : 'Pending' }}
             </form>
 
         </div>
@@ -43,6 +43,15 @@
     Array.from(document.getElementsByClassName('form-check-input')).forEach((element) => {
         element.checked = element.value == 1 ? true : false;
     });
+
+    function deleteItem() {
+        if (confirm('Are you sure?') == true) {
+            document.getElementById('deleteForm').submit();
+        } else {
+            event.preventDefault();
+            return;
+        }
+    }
 </script>
 
 </html>

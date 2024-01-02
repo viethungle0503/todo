@@ -101,7 +101,7 @@
                                             style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-danger" onclick="deleteItem()">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -112,7 +112,17 @@
             </tbody>
         </table>
     </div>
-
 </body>
+<script>
+    function deleteItem() {
+        if (confirm('Are you sure?') == true) {
+            document.getElementById('deleteForm').submit();
+        }
+        else {
+            event.preventDefault();
+            return;
+        }
+    }
+</script>
 
 </html>
