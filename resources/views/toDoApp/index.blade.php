@@ -6,10 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- Bootstrap 5 --}}
     <link href="{{ url('/css/bootstrap.min.css') }}" rel="stylesheet" />
     <script src="{{ url('/js/bootstrap.bundle.min.js') }}"></script>
-
     <title>To-do List</title>
 </head>
 
@@ -26,39 +28,7 @@
                 </ul>
             </div>
         @endif
-        <form id="create-form" action="{{ url('/todos') }}" method="POST" class="form-horizontal">
-            @csrf
-            <div class="card" style="width: fit-content; margin: 0 auto">
-                <h5 class="card-header">
-                    New Task
-                </h5>
-                <div class="card-body d-flex flex-row">
-                    <div style="width: fit-content">
-                        <div>
-                            <label class=""><b>Task</b></label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="task" placeholder="Enter task..."
-                                    style="min-width: 40vw" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class=""><b>Content</b></label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="content"
-                                    placeholder="Add some new content..." style="min-width: 40vw" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add Task Button -->
-                    <div class="d-flex align-items-center" style="width: fit-content">
-                        <button type="submit" class="btn btn-success m-5">
-                            <i class="fas fa-plus"></i>
-                            Add Task
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+        @include('toDoApp.add_task')
         @if (session('result'))
             <div class="alert alert-success">
                 {{ session('result') }}
@@ -66,53 +36,9 @@
         @endif
     </div>
     <hr />
-    <div class="container">
-        <div class="card">
-            <h5 class="card-header">
-                Pending tasks
-            </h5>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Content</th>
-                            <th scope="col">Button</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @include('toDoApp.pending_task')
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
+    @include('toDoApp.pending_task')
     <hr />
-    <div class="container">
-        <div class="card">
-            <h5 class="card-header">
-                Completed Tasks
-            </h5>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Content</th>
-                            <th scope="col">Button</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @include('toDoApp.completed_task')
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
+    @include('toDoApp.completed_task')
 </body>
 <script>
     function deleteItem() {

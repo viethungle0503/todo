@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendEmail;
 
 class ToDoAppContrller extends Controller
 {
@@ -14,6 +15,7 @@ class ToDoAppContrller extends Controller
     {
         $todos = DB::table('todos')->get();
         return view('toDoApp.index', ['todos' => $todos]);
+        // return view('toDoApp.index', compact($todos));
     }
 
     /**
@@ -29,22 +31,35 @@ class ToDoAppContrller extends Controller
      */
     public function store(Request $request)
     {
-    // validate the form
-    $request->validate([
-        'task' => 'required|max:100'
-    ]);
+        // validate the form
+        $request->validate([
+            'task' => 'required|max:100'
+        ]);
 
-    // store the data
-    DB::table('todos')->insert([
-        'task' => $request->task,
-        'content' => $request->content,
-        'status' => 0,
-        'created_at' => now(),
-        'updated_at' => now()
-    ]);
+        // store the data
+        DB::table('todos')->insert([
+            'task' => $request->task,
+            'content' => $request->content,
+            'status' => 0,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $message = [
+            'type' => 'Create task',
+            'task' => $request->task,
+            'content' => 'đã được thêm vào trong To-do List của bạn',
+        ];
+        $userArray = array(
+            // Every array will be converted 
+            // to an object 
+            array(
+                "email" => "younghungold@gmail.com"
+            )
+        );
+        SendEmail::dispatch($message, $userArray)->delay(now()->addMinute());
 
-    // redirect
-    return redirect('/')->with('result', 'Task added!');
+        // redirect
+        return redirect('/')->with('result', 'Task added!');
     }
 
     /**
@@ -70,40 +85,67 @@ class ToDoAppContrller extends Controller
     public function update(Request $request, string $id)
     {
         // validate the form
-    $request->validate([
-        'task' => 'required|max:100'
-    ]);
+        $request->validate([
+            'task' => 'required|max:100'
+        ]);
 
-    // update the data
-    DB::table('todos')->where('id', $id)->update([
-        'task' => $request->task,
-        'content' => $request->content,
-        'updated_at' => now()
-    ]);
+        // update the data
+        DB::table('todos')->where('id', $id)->update([
+            'task' => $request->task,
+            'content' => $request->content,
+            'updated_at' => now()
+        ]);
+        $message = [
+            'type' => 'Update task',
+            'task' => $request->task,
+            'content' => 'đã được thay đổi thành công',
+        ];
+        $userArray = array(
+            // Every array will be converted 
+            // to an object 
+            array(
+                "email" => "younghungold@gmail.com"
+            )
+        );
+        SendEmail::dispatch($message, $userArray)->delay(now()->addMinute());
 
-    // redirect
-    return redirect('/')->with('result', 'Task updated!');
+        // redirect
+        return redirect('/')->with('result', 'Task updated!');
     }
 
     public function update_status(Request $request, string $id)
     {
-    $result = DB::table('todos')->where('id', $id)->first('status');
-    DB::table('todos')->where('id', $id)->update([
-        'status' => $result->status == 0 ? 1 : 0,
-        'updated_at' => now()
-    ]);
-    return redirect('/')->with('result', 'Status updated!');
+        $result = DB::table('todos')->where('id', $id)->first('status');
+        DB::table('todos')->where('id', $id)->update([
+            'status' => $result->status == 0 ? 1 : 0,
+            'updated_at' => now()
+        ]);
+        return redirect('/')->with('result', 'Status updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         // delete the todo
-    DB::table('todos')->where('id', $id)->delete();
+        DB::table('todos')->where('id', $id)->delete();
 
-    // redirect
-    return redirect('/')->with('result', 'Task removed!');
+        $message = [
+            'type' => 'Create task',
+            'task' => $request->task,
+            'content' => 'đã được xóa khỏi To-do List của bạn',
+        ];
+        $userArray = array(
+            // Every array will be converted 
+            // to an object 
+            array(
+                "email" => "younghungold@gmail.com"
+            )
+        );
+        SendEmail::dispatch($message, $userArray)->delay(now()->addMinute());
+
+        // redirect
+        return redirect('/')->with('result', 'Task removed!');
     }
 }
