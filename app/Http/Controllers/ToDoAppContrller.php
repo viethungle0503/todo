@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Todo extends Controller
+class ToDoAppContrller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class Todo extends Controller
     public function index()
     {
         $todos = DB::table('todos')->get();
-        return view('app', ['todos' => $todos]);
+        return view('toDoApp.index', ['todos' => $todos]);
     }
 
     /**
@@ -61,7 +61,7 @@ class Todo extends Controller
     public function edit(string $id)
     {
         $todo = DB::table('todos')->where('id', $id)->first();
-        return view('update', ['todo' => $todo]);
+        return view('toDoApp.update_task', ['todo' => $todo]);
     }
 
     /**

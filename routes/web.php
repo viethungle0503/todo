@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Todo;
+use App\Http\Controllers\ToDoAppContrller;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +14,10 @@ use App\Http\Controllers\Todo;
 |
 */
 
-Route::get('/', [Todo::class, 'index'])->name('todo');
-Route::post('/todos', [Todo::class, 'store'])->name('store');
-Route::put('/todos/{id}', [Todo::class, 'update']);
-Route::put('/todos_status/{id}', [Todo::class, 'update_status']);
-Route::delete('/todos/{id}', [Todo::class, 'destroy']);
+Route::get('/', [ToDoAppContrller::class, 'index'])->name('todo');
+Route::post('/todos', [ToDoAppContrller::class, 'store'])->name('store');
+Route::put('/todos/{id}', [ToDoAppContrller::class, 'update']);
+Route::put('/todos_status/{id}', [ToDoAppContrller::class, 'update_status']);
+Route::delete('/todos/{id}', [ToDoAppContrller::class, 'destroy']);
 
-Route::get('/todos/{id}/edit', [Todo::class, 'edit'])->name('edit');
+Route::get('/todos/{id}/edit', [ToDoAppContrller::class, 'edit'])->name('edit');
