@@ -21,11 +21,11 @@ class ToDoAppContrller extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the home page.
      */
-    public function create()
+    public function home()
     {
-        //
+        return view('main');
     }
 
     /**

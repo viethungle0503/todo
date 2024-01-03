@@ -15,11 +15,12 @@ use App\Http\Controllers\ToDoAppContrller;
 */
 
 Route::get('/', [ToDoAppContrller::class, 'index'])->name('todo');
+Route::get('/home', [ToDoAppContrller::class, 'home'])->name('home');
 Route::post('/todos', [ToDoAppContrller::class, 'store'])->name('store');
 Route::put('/todos/{id}', [ToDoAppContrller::class, 'update']);
 Route::put('/todos_status/{id}', [ToDoAppContrller::class, 'update_status']);
+Route::get('/todos/{id}/edit', [ToDoAppContrller::class, 'edit'])->name('edit');
 Route::delete('/todos/{id}', [ToDoAppContrller::class, 'destroy']);
 
-Route::get('/todos/{id}/edit', [ToDoAppContrller::class, 'edit'])->name('edit');
 Route::get('/export/csv', [ToDoAppContrller::class, 'exportCSV'])->name('export');
 Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXLSX']);
