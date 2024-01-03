@@ -15,7 +15,7 @@
             <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">To-do List</a>
         </li>
         <li>
-            <a href="/chatBot" class="{{ request()->is('chatBot') ? 'active' : '' }}">chatBot</a>
+            <a href="chatBot" class="{{ request()->is('chatBot') ? 'active' : '' }}">chatBot</a>
         </li>
         <li>
             <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Contact</a>

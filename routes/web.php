@@ -24,3 +24,8 @@ Route::delete('/todos/{id}', [ToDoAppContrller::class, 'destroy']);
 
 Route::get('/export/csv', [ToDoAppContrller::class, 'exportCSV'])->name('export');
 Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXLSX']);
+
+Route::get('/chatBot', function () {
+  return view('chat');
+});
+Route::post('/chat', 'App\Http\Controllers\ChatGPTController');
