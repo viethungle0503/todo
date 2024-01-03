@@ -28,4 +28,3 @@ Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXLSX']);
 Route::get('/chatBot', function () {
   return view('chat');
 });
-Route::post('/chat', 'App\Http\Controllers\ChatGPTController');
