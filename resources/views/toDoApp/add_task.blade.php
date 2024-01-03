@@ -22,7 +22,7 @@
                 </div>
             </div>
             <!-- Add Task Button -->
-            <div class="d-flex align-items-center" style="width: fit-content">
+            <div class="d-flex align-items-center flex-row" style="width: fit-content">
                 <button type="submit" class="btn btn-success m-5">
                     <i class="fas fa-plus"></i>
                     Add Task

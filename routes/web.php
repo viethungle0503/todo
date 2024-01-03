@@ -21,3 +21,5 @@ Route::put('/todos_status/{id}', [ToDoAppContrller::class, 'update_status']);
 Route::delete('/todos/{id}', [ToDoAppContrller::class, 'destroy']);
 
 Route::get('/todos/{id}/edit', [ToDoAppContrller::class, 'edit'])->name('edit');
+Route::get('/export/csv', [ToDoAppContrller::class, 'exportCSV'])->name('export');
+Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXLSX']);

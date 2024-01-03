@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendEmail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TaskExport;
 
 class ToDoAppContrller extends Controller
 {
@@ -147,5 +149,47 @@ class ToDoAppContrller extends Controller
 
         // redirect
         return redirect('/')->with('result', 'Task removed!');
+    }
+
+    /**
+     * Export data to CSV file without using any package
+     */
+    public function exportCSV() {
+        $todos = DB::table('todos')->get();
+        $fileName = 'todos.csv';
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+        $columns = array('Task', 'Content', 'Status', 'Created at', 'Updated at');
+
+        $callback = function() use($todos, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($todos as $todo) {
+                $row['Task'] = $todo->task;
+                $row['Content'] = $todo->content;
+                $row['Status'] = $todo->status;
+                $row['Created at'] = $todo->created_at;
+                $row['Updated at'] = $todo->updated_at;
+
+                fputcsv($file, array($row['Task'], $row['Content'], $row['Status'], $row['Created at'], $row['Updated at']));
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Export data to CSV file using Maatwebsite\Excel package
+     */
+    public function exportXLSX() {
+        return Excel::download(new TaskExport, 'todos.xlsx');
     }
 }

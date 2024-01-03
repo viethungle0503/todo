@@ -16,7 +16,21 @@
 </head>
 
 <body>
-    <h1 class="text-center">To-do lists</h1>
+    <div class="d-flex justify-content-center align-items-center">
+        <h1 class="text-center d-inline-block">To-do lists</h1>
+        <button type="submit" class="btn btn-success m-5">
+            <a href="{{ url('/export/csv') }}" style="text-decoration: none;color: black !important">
+            <i class="fa-solid fa-table"></i>
+            Export as CSV file
+        </a>
+        </button>
+        <button type="submit" class="btn btn-success m-5">
+            <a href="{{ url('/export/xlsx') }}" style="text-decoration: none;color: black !important">
+            <i class="fa-solid fa-table"></i>
+            Export as XLSX file
+        </a>
+        </button>
+    </div>
     <hr />
     <div class="container-fluid">
         @if ($errors->any())

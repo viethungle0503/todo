@@ -39,10 +39,10 @@ class SendEmail implements ShouldQueue
         // foreach ($this->users as $user) {
         //     Mail::to($user->email)->send(new MailNotify($this->data));
         // }
-        for ($i = 0; $i < count($this->users); $i++) {
-            Mail::to($this->users[$i]['email'])
-                ->send(new MailNotify($this->data))
-            ;
-        }
+        // for ($i = 0; $i < count($this->users); $i++) {
+        //     Mail::to($this->users[$i]['email'])
+        //         ->send(new MailNotify($this->data))
+        //     ;
+        // }
     }
 }
