@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendEmail;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Exports\TaskExport;
 
 class ToDoAppContrller extends Controller
