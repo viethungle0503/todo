@@ -4,9 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {{-- Bootstrap 5 --}}
-    <link href="{{ url('/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <script src="{{ url('/js/bootstrap.bundle.min.js') }}"></script>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>

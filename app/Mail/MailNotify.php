@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -11,9 +10,11 @@ use Illuminate\Queue\SerializesModels;
 
 class MailNotify extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $data;
+
     /**
      * Create a new message instance.
      */
@@ -23,16 +24,16 @@ class MailNotify extends Mailable
     }
 
     /**
-    * Build the message.
-    *
-    * @return $this
-    */
-   public function build()
-   {
-       return $this->from('younghungold@gmail.com')
-           ->view('mail-notify')
-           ->subject('Thay đổi trong To-do List');
-   }
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->from('younghungold@gmail.com')
+            ->view('mail-notify')
+            ->subject('Thay đổi trong To-do List');
+    }
 
     // /**
     //  * Get the message envelope.

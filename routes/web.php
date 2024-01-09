@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ToDoAppContrller;
 use App\Http\Controllers\GoogleBardController;
+use App\Http\Controllers\ToDoAppContrller;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +19,12 @@ Route::get('/', [ToDoAppContrller::class, 'index'])->name('todo');
 Route::get('/home', [ToDoAppContrller::class, 'home'])->name('home');
 Route::post('/todos', [ToDoAppContrller::class, 'store'])->name('store');
 Route::put('/todos/{id}', [ToDoAppContrller::class, 'update']);
-Route::put('/todos_status/{id}', [ToDoAppContrller::class, 'update_status']);
+Route::put('/todos_status/{id}', [ToDoAppContrller::class, 'updateStatus']);
 Route::get('/todos/{id}/edit', [ToDoAppContrller::class, 'edit'])->name('edit');
 Route::delete('/todos/{id}', [ToDoAppContrller::class, 'destroy']);
 
-Route::get('/export/csv', [ToDoAppContrller::class, 'exportCSV'])->name('export');
-Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXLSX']);
+Route::get('/export/csv', [ToDoAppContrller::class, 'exportCsv'])->name('export');
+Route::get('/export/xlsx', [ToDoAppContrller::class, 'exportXlsx']);
 
 Route::get('/chatBot', [GoogleBardController::class, 'index']);
 Route::post('/process-nlp', [GoogleBardController::class, 'processNLP']);
