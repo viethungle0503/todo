@@ -39,8 +39,8 @@ class ToDoAppContrller extends Controller
         // validate the form
         $request->validate([
             'task' => 'required|max:100',
+            'content' => 'nullable|max:255'
         ]);
-
         // store the data
         Task::create([
             'task' => $request->task,
@@ -83,14 +83,18 @@ class ToDoAppContrller extends Controller
         // validate the form
         $request->validate([
             'task' => 'required|max:100',
+            'content' => 'nullable|max:255'
         ]);
 
         // update the data
-        Task::where('id', $id)->update([
+        $result = Task::where('id', $id)->update([
             'task' => $request->task,
             'content' => $request->content,
             'updated_at' => now(),
         ]);
+        if($result == 0) {
+            return redirect('/')->with('result', 'Task not updated because we can not find it!');
+        }
         $message = [
             'type' => 'Update task',
             'task' => $request->task,
@@ -116,7 +120,6 @@ class ToDoAppContrller extends Controller
             'status' => $result->status == 0 ? 1 : 0,
             'updated_at' => now(),
         ]);
-
         return redirect('/')->with('result', 'Status updated!');
     }
 
