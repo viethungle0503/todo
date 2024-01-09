@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Facades\DB;
+use App\Models\Task;
 
 class TaskExport implements FromCollection
 {
@@ -12,6 +13,6 @@ class TaskExport implements FromCollection
     */
     public function collection()
     {
-        return DB::table('todos')->get();
+        return Task::all();
     }
 }

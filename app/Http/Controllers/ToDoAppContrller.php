@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendEmail;
@@ -16,8 +17,7 @@ class ToDoAppContrller extends Controller
      */
     public function index()
     {
-        $todos = DB::table('todos')->get();
-        return view('toDoApp.index', ['todos' => $todos]);
+        return view('toDoApp.index', ['todos' => Task::getAll()]);
         // return view('toDoApp.index', compact($todos));
     }
 
@@ -40,7 +40,7 @@ class ToDoAppContrller extends Controller
         ]);
 
         // store the data
-        DB::table('todos')->insert([
+        Task::create([
             'task' => $request->task,
             'content' => $request->content,
             'status' => 0,
@@ -66,20 +66,11 @@ class ToDoAppContrller extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $todo = DB::table('todos')->where('id', $id)->first();
-        return view('toDoApp.update_task', ['todo' => $todo]);
+        return view('toDoApp.update_task', ['todo' => Task::query()->findOrFail($id)]);
     }
 
     /**
@@ -93,7 +84,7 @@ class ToDoAppContrller extends Controller
         ]);
 
         // update the data
-        DB::table('todos')->where('id', $id)->update([
+        Task::where('id',$id)->update([
             'task' => $request->task,
             'content' => $request->content,
             'updated_at' => now()
@@ -118,8 +109,8 @@ class ToDoAppContrller extends Controller
 
     public function update_status(Request $request, string $id)
     {
-        $result = DB::table('todos')->where('id', $id)->first('status');
-        DB::table('todos')->where('id', $id)->update([
+        $result = Task::query()->findOrFail($id)->first('status');
+        Task::find($id)->update([
             'status' => $result->status == 0 ? 1 : 0,
             'updated_at' => now()
         ]);
@@ -132,7 +123,7 @@ class ToDoAppContrller extends Controller
     public function destroy(Request $request, string $id)
     {
         // delete the todo
-        DB::table('todos')->where('id', $id)->delete();
+        Task::query()->findOrFail($id)->delete();
 
         $message = [
             'type' => 'Create task',
@@ -155,8 +146,9 @@ class ToDoAppContrller extends Controller
     /**
      * Export data to CSV file without using any package
      */
-    public function exportCSV() {
-        $todos = DB::table('todos')->get();
+    public function exportCSV()
+    {
+        $todos = Task::all();
         $fileName = 'todos.csv';
         $headers = array(
             "Content-type" => "text/csv",
@@ -167,7 +159,7 @@ class ToDoAppContrller extends Controller
         );
         $columns = array('Task', 'Content', 'Status', 'Created at', 'Updated at');
 
-        $callback = function() use($todos, $columns) {
+        $callback = function () use ($todos, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
@@ -190,7 +182,8 @@ class ToDoAppContrller extends Controller
     /**
      * Export data to CSV file using Maatwebsite\Excel package
      */
-    public function exportXLSX() {
+    public function exportXLSX()
+    {
         return Excel::download(new TaskExport, 'todos.xlsx');
     }
 }
