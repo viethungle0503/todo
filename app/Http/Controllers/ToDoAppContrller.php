@@ -111,7 +111,7 @@ class ToDoAppContrller extends Controller
 
     public function updateStatus(Request $request, string $id): RedirectResponse
     {
-        $result = Task::query()->findOrFail($id)->first('status');
+        $result = Task::query()->findOrFail($id);
         Task::find($id)->update([
             'status' => $result->status == 0 ? 1 : 0,
             'updated_at' => now(),

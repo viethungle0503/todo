@@ -10,7 +10,7 @@
 <body>
     <div class="mt-2 align-middle" style="position: relative; top: 50vh;">
         <div class="card card-body d-flex flex-row justify-content-evenly">
-            <form action="{{ url('todos/' . $todo->id) }}" method="POST" style="display: inline-block;">
+            <form action="{{ url('todos/task/' . $todo->id) }}" method="POST" style="display: inline-block;">
                 @csrf
                 @method('PUT')
                 <input type="text" name="task" value="{{ $todo->task }}">
@@ -22,7 +22,7 @@
                 @method('DELETE')
                 <button class="btn btn-danger" onclick="deleteItem()">Delete</button>
             </form>
-            <form id="statusForm" action="{{ url('todos_status/' . $todo->id) }}" method="POST"
+            <form id="statusForm" action="{{ url('todos/status/' . $todo->id) }}" method="POST"
                 style="display: inline-block;">
                 @csrf
                 @method('PUT')
